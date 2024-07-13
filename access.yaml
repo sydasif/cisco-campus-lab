@@ -7,43 +7,32 @@ ACCESS-01:
 commands:
   - interface GigabitEthernet0/0
   - no shutdown
-  - description DIST-01-LINK
+  - description DIST-01_LINK
   - switchport trunk encapsulation dot1q
   - switchport mode trunk
   - negotiation auto
   - interface GigabitEthernet0/1
   - no shutdown
-  - description DIST-02-LINK
+  - description DIST-02_LINK
   - switchport trunk encapsulation dot1q
   - switchport mode trunk
   - negotiation auto
   - interface GigabitEthernet0/2
   - no shutdown
-  - description MGMT-PC
+  - description MGMT_PC
   - switchport access vlan 99
   - switchport mode access
   - negotiation auto
   - interface GigabitEthernet0/3
   - no shutdown
-  - description PC-1-LIKN
+  - description PC1_LINK
   - switchport access vlan 10
   - switchport mode access
   - negotiation auto
   - interface GigabitEthernet1/0
   - no shutdown
-  - description PC-2_LINK
+  - description PC2_LINK
   - switchport access vlan 20
   - switchport mode access
   - negotiation auto
-  - interface GigabitEthernet1/1
-  - no shutdown
-  - negotiation auto
-  - interface GigabitEthernet1/2
-  - no shutdown
-  - negotiation auto
-  - interface GigabitEthernet1/3
-  - no shutdown
-  - negotiation auto
-  - interface Vlan99
-  - no shutdown
   - end
