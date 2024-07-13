@@ -1,0 +1,122 @@
+hostname CORE-RTR
+!
+boot-start-marker
+boot-end-marker
+!
+!
+no aaa new-model
+memory-size iomem 5
+ip cef
+!
+!
+!
+!
+ip vrf Mgmt
+!
+no ip domain lookup
+ip domain name tech.com
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+username admin privilege 15 password 0 cisco
+archive
+ log config
+  hidekeys
+!
+!
+!
+!
+ip ssh version 2
+!
+!
+!
+!
+interface FastEthernet0/0
+ description ISP-LINK
+ ip address 192.168.68.100 255.255.255.0
+ ip nat outside
+ ip virtual-reassembly
+ speed 100
+ full-duplex
+!
+interface FastEthernet0/1
+ description MGMT-PC
+ ip vrf forwarding Mgmt
+ ip address 192.168.68.10 255.255.255.0
+ speed 100
+ full-duplex
+!
+interface FastEthernet1/0
+ ip address 10.1.4.254 255.255.255.0
+ ip nat inside
+ ip virtual-reassembly
+ duplex auto
+ speed auto
+!
+interface FastEthernet2/0
+ description DIST-1-LINK
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+!
+router eigrp 50
+ redistribute static metric 1000 100 255 1 1500
+ network 10.1.4.254 0.0.0.0
+ auto-summary
+!
+ip forward-protocol nd
+ip route 0.0.0.0 0.0.0.0 192.168.68.2
+!
+!
+ip http server
+no ip http secure-server
+ip nat inside source list 100 interface FastEthernet0/0 overload
+!
+access-list 99 permit 10.0.0.0 0.7.255.255
+!
+!
+!
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login local
+ transport input all
+!
+!
+end
