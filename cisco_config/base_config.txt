@@ -2,29 +2,28 @@ enable
 !
 configure terminal
 !
-ip routing
-!
 ip vrf Mgmt
 !
-hostname xxxxxx
+hostname ABC
 !
 no ip domain-lookup
+!
 ip domain-name tech.com
+!
+crypto key generate rsa modulus 2048
+!
+ip ssh version 2
 !
 username admin privilege 15 password cisco
 !
 interface vlan 99
  ip vrf forwarding Mgmt
- ip address x.x.x.x 255.255.255.0
+ ip address XYZ 255.255.255.0
  no shut
 !
 line vty 0 4
  logg sync
  transport input all
  login local
-!
-crypto key generate rsa modulus 2048
-!
-ip ssh version 2
 !
 exit
