@@ -1,20 +1,32 @@
+Current configuration : 1269 bytes
+!
+! Last configuration change at 11:20:48 UTC Sat Jul 13 2024
+!
+version 15.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+!
 hostname CORE-RTR
 !
 boot-start-marker
 boot-end-marker
 !
 !
+!
 no aaa new-model
-memory-size iomem 5
-ip cef
-!
-!
-!
 !
 ip vrf Mgmt
 !
+!
+!
+!
+!
+!
 no ip domain lookup
 ip domain name tech.com
+ip cef
+no ipv6 cef
+!
 !
 multilink bundle-name authenticated
 !
@@ -24,24 +36,8 @@ multilink bundle-name authenticated
 !
 !
 !
-!
-!
-!
-!
-!
-!
-!
-!
-!
-!
-!
-!
-!
-!
 username admin privilege 15 password 0 cisco
-archive
- log config
-  hidekeys
+!
 !
 !
 !
@@ -51,70 +47,55 @@ ip ssh version 2
 !
 !
 !
+!
+!
+!
+!
+!
 interface FastEthernet0/0
  description ISP-LINK
  ip address 192.168.68.100 255.255.255.0
  ip nat outside
- ip virtual-reassembly
- speed 100
- full-duplex
-!
-interface FastEthernet0/1
- description MGMT-PC
- ip vrf forwarding Mgmt
- ip address 192.168.68.10 255.255.255.0
- speed 100
- full-duplex
+ duplex full
 !
 interface FastEthernet1/0
  ip address 10.1.4.254 255.255.255.0
  ip nat inside
- ip virtual-reassembly
- duplex auto
- speed auto
+ duplex full
 !
 interface FastEthernet2/0
- description DIST-1-LINK
- no ip address
- shutdown
- duplex auto
- speed auto
+ description MGMT-PC
+ ip vrf forwarding Mgmt
+ ip address 192.168.68.10 255.255.255.0
+ duplex full
+!
 !
 router eigrp 50
- redistribute static metric 1000 100 255 1 1500
  network 10.1.4.254 0.0.0.0
- auto-summary
+ redistribute static metric 1000 100 255 1 1500
 !
+ip nat inside source list 99 interface FastEthernet0/0 overload
 ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
 ip route 0.0.0.0 0.0.0.0 192.168.68.2
 !
-!
-ip http server
-no ip http secure-server
-ip nat inside source list 100 interface FastEthernet0/0 overload
-!
-access-list 99 permit 10.0.0.0 0.7.255.255
-!
-!
-!
+access-list 99 permit any
 !
 !
 !
 control-plane
 !
 !
-!
-!
-!
-!
-!
-!
-!
-!
 line con 0
  logging synchronous
+ stopbits 1
 line aux 0
+ stopbits 1
 line vty 0 4
+ logging synchronous
  login local
  transport input all
 !
